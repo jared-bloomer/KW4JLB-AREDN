@@ -26,3 +26,5 @@ Run the command `chmod +x install.sh && bash install.sh`
 * Mattermost (open source version of slack). This runs on port 8065 by default
   * To run this playbook run `ansible-playbook install_mattermost.yml`
 
+* MeshChat
+  * You must have the Meshchat API package installed on your AREDN node. Get it [HERE](https://s3.amazonaws.com/aredn/meshchat-api_1.02_all.ipk)
