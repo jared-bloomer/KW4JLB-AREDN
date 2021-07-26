@@ -1,3 +1,4 @@
+```
 pi@raspberrypi:~/KW4JLB-AREDN $ ansible-playbook install_mattermost.yml
 [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
 
@@ -66,3 +67,4 @@ changed: [localhost]
 
 PLAY RECAP *******************************************************************************************************************************************************************************************************************************************************************
 localhost                  : ok=20   changed=16   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
