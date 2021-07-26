@@ -1,16 +1,32 @@
 ---
-- name: Copy createdb.sql
-  template:
-    src: createdb.sql.j2
-    dest: /home/pi/createdb.sql
-    owner: pi
-    group: pi
-    mode: 0744
+- name: Preparing to copy my.cnf for root user
+  file:
+    path: /etc/mysql/debian.cnf
+    mode: o+r
+
+- name: copy my.cnf for root user
+  copy:
+    src: /etc/mysql/debian.cnf
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+  become: yes
+  become_user: root
+
+- name: Reverting changes from  copy my.cnf for root user
+  file:
+    path: /etc/mysql/debian.cnf
+    mode: o-r
 
 - name: Create Database
   community.mysql.mysql_db:
     name: mattermost
     state: present
 
-- name: load createdb.sql
-  command: sudo mysql -u root < /home/pi/createdb.sql
+- name: Create DB User
+  community.mysql.mysql_user:
+    name: "{{ mattermost_mysql_username }}"
+    password: "{{ mattermost_mysql_password }}"
+    priv: 'mattermost.*:ALL'
+    state: present
