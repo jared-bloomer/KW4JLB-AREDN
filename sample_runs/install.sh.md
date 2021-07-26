@@ -1,3 +1,4 @@
+```
 pi@raspberrypi:~/KW4JLB-AREDN $ chmod +x install.sh && bash install.sh
 Reading package lists... Done
 Building dependency tree
@@ -92,3 +93,4 @@ Processing triggers for man-db (2.8.5-2) ...
 Process install dependency map
 Starting collection install process
 Installing 'community.mysql:2.1.0' to '/home/pi/.ansible/collections/ansible_collections/community/mysql'
+```
