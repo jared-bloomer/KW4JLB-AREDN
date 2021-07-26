@@ -8,6 +8,9 @@ If you would like to learn more about Ansible, please visit [Redhat's Ansible Pa
 ## Notes
 These Ansible Playbooks were built on a Raspberry Pi 4 (4GB) running Raspberry OS. Raspberry OS is built from Debian so in theory this should work on any Debian Based Operating system on ARM architecture. 
 
+## Pre-RUN Steps
+Please edit `group_vars/all.yml`. This file contains variables used in Ansible for things like Credentials, and software versions. These should be changed and made unique for security reasons. 
+
 ## Installation
 
 Clone this repo and change to its directory
