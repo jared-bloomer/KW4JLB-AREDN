@@ -23,6 +23,8 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 ## The following Services are available for installation
 
+### Chat Programs
+
 * Mattermost (open source version of slack). This runs on port 8065 by default
   * To run this playbook run `ansible-playbook install_mattermost.yml`
 
