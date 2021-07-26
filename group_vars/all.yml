@@ -1,3 +1,11 @@
-mattermost_mysql_username: "matmostadmin"
-mattermost_mysql_password: "ChangeMe"
+# MATTERMOST SETTINGS
+mattermost_mysql_username: "matmostadmin" # Make this Unique
+mattermost_mysql_password: "ChangeMe" # Make this Unique
 mattermost_version: "5.37.0"
+
+# MESHCHAT SETTINGS
+meshchat_version: "1.02"
+meshchat_zone: "MeshChat" # This should be set to your configured MeshChat Zone fo your network
+meshchat_node: "localnode" # This should be set to your AREDN node running the meshchat api
+
+

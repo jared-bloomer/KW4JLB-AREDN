@@ -8,6 +8,9 @@ If you would like to learn more about Ansible, please visit [Redhat's Ansible Pa
 ## Notes
 These Ansible Playbooks were built on a Raspberry Pi 4 (4GB) running Raspberry OS. Raspberry OS is built from Debian so in theory this should work on any Debian Based Operating system on ARM architecture. 
 
+## Pre-RUN Steps
+Please edit `group_vars/all.yml`. This file contains variables used in Ansible for things like Credentials, and software versions. At a minimum, Credentials should be changed and made unique for security reasons. 
+
 ## Installation
 
 Clone this repo and change to its directory
@@ -23,3 +26,6 @@ Run the command `chmod +x install.sh && bash install.sh`
 * Mattermost (open source version of slack). This runs on port 8065 by default
   * To run this playbook run `ansible-playbook install_mattermost.yml`
 
+* MeshChat
+  * You must have the Meshchat API package installed on your AREDN node. Get it [HERE](https://s3.amazonaws.com/aredn/meshchat-api_1.02_all.ipk)
+  * To run this playbook run `ansible-playbook install_meshchat.yml`
