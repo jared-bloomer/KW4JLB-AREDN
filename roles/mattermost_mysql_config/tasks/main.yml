@@ -1,12 +1,4 @@
 ---
-- name: Copy createdb.sql
-  template:
-    src: createdb.sql.j2
-    dest: /home/pi/createdb.sql
-    owner: pi
-    group: pi
-    mode: 0744
-
 - name: Preparing to copy my.cnf for root user
   file:
     path: /etc/mysql/debian.cnf

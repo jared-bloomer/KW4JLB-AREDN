@@ -9,3 +9,4 @@
     - update_system
     - install_mysql
     - mattermost_mysql_config
+    - mattermost_install
