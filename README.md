@@ -31,3 +31,16 @@ Run the command `chmod +x install.sh && bash install.sh`
 * MeshChat
   * You must have the Meshchat API package installed on your AREDN node. Get it [HERE](https://s3.amazonaws.com/aredn/meshchat-api_1.02_all.ipk)
   * To run this playbook run `ansible-playbook install_meshchat.yml`
+
+### Email Programs
+
+### File Sharing Programs
+
+### VoIP Audio/Phone Conferencing Programs
+
+### Video Streaming and Surveillance Programs
+
+### Computer Aided Dispatch Programs
+
+### Other Programs
+
