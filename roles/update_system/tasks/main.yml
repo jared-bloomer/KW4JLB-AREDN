@@ -1,0 +1,17 @@
+---
+- name: apt-get update
+  apt:
+    update-cache: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: apt-get dist-upgrade
+  apt:
+    upgrade: dist
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: apt-get Upgrade
+  apt:
+    state: latest
+  when: ansible_facts['os_family'] == "Debian"
+    
+

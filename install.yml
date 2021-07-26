@@ -1,0 +1,9 @@
+---
+- name: Install MatterMost
+  hosts: localhost
+  gather_facts: True
+  become: true
+  become_method: sudo
+
+  roles:
+    - update_system
