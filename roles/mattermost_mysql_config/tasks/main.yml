@@ -3,7 +3,14 @@
   template:
     src: createdb.sql.j2
     dest: /home/pi/createdb.sql
-    mode: 744
+    owner: pi
+    group: pi
+    mode: 0744
+
+- name: Create Database
+  community.mysql.mysql_db:
+    name: mattermost
+    state: present
 
 - name: load createdb.sql
-  command: mysql -u root < /home/pi/createdb.sql
+  command: sudo mysql -u root < /home/pi/createdb.sql

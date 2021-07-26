@@ -1,5 +1,7 @@
+# THIS IS NOT A WORKING PROJECT YET
+
 # Installation
 
-Run the command `sudo apt update && sudo apt install ansible -y`
+Run the command `chmod +x install.sh && bash install.sh`
 
 
