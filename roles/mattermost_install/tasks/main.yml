@@ -37,7 +37,7 @@
 - name: Update Mattermost config
   lineinfile:
     path: /opt/mattermost/config/config.json
-    search_string: '"DriverName": "postgres",'
+    regex: '\"DriverName\"\: \"postgres\"\,'
     line: '    "DriverName": "mysql",'
     
 - name: Update Mattermost config
