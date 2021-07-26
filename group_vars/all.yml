@@ -1,3 +1,6 @@
 mattermost_mysql_username: "matmostadmin"
 mattermost_mysql_password: "ChangeMe"
 mattermost_version: "5.37.0"
+meshchat_version: "1.02"
+meshchat_zone: "LWMeshChat"
+meshchat_node: "localnode"
