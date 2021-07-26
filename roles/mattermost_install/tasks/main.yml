@@ -60,4 +60,15 @@
     state: started
     daemon_reload: yes
     enabled: yes
-  
+
+- name: Testing if mattermost is available
+  uri:
+    url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8065" 
+    return_content: true
+  register: mattermost_status
+
+- name: Mattermost Web Info
+  debug:
+    msg: "You can access mattermost at http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8065"
+  when: mattermost_status.status == 200
+ 
