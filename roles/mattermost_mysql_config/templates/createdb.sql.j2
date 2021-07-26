@@ -1,0 +1,3 @@
+create user '{{ mattermost_mysql_username }}'@'%' identified by '{{ mattermost_mysql_password }}';
+create database mattermost;
+grant all privileges on mattermost.* to '{{ mattermost_mysql_username }}'@'%';

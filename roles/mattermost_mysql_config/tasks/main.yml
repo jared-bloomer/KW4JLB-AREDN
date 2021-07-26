@@ -1,0 +1,9 @@
+---
+- name: Copy createdb.sql
+  template:
+    src: createdb.sql.j2
+    dest: /home/pi/createdb.sql
+    mode: 744
+
+- name: load createdb.sql
+  command: mysql -u root < /home/pi/createdb.sql
