@@ -34,6 +34,10 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 ### Email Programs
 
+* Postfix/Dovecot/Squirrelmail
+  * This is a bare bones configuration. More advanced configuration may be needed. 
+  * To run this playbook run `ansible-playbook install_email.yml`
+
 ### File Sharing Programs
 
 ### VoIP Audio/Phone Conferencing Programs
