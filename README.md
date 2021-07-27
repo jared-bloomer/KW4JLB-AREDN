@@ -6,7 +6,7 @@ Install a Virtual Environment
 Activate the Virtual Environment
 `python -m virtualenv env` If you are using Python 2.x
 
-`python -m venv env` If you are using Python 3.x+
+`python3 -m venv env` If you are using Python 3.x+
 
 Finally
 `source env/bin/activate`
