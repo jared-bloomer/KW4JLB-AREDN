@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>How Does it Work? &mdash; KW4JLB-AREDN  documentation</title>
+  <title>Ansible &mdash; KW4JLB-AREDN  documentation</title>
   
 
   
@@ -89,10 +89,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Introduction.html#what-is-contained-in-this-repo">What is contained in this Repo?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Introduction.html#what-is-ansible">What is Ansible?</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How Does it Work?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#ansible-use-case-example">Ansible Use Case Example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ansible</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-does-it-work">How Does it Work?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ansible-use-case-example">Ansible Use Case Example</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -141,7 +142,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>How Does it Work?</li>
+      <li>Ansible</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -160,12 +161,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="how-does-it-work">
-<span id="ansible"></span><h1>How Does it Work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ansible">
+<span id="id1"></span><h1>Ansible<a class="headerlink" href="#ansible" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-does-it-work">
+<span id="id2"></span><h2>How Does it Work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h2>
 <p>Ansible is based on the <a class="reference external" href="https://www.python.org/">Python Scripting Language</a>. Through a series of Modules built to perform a specific task, you can build a “playbook” to perform many task in an automated fashion. This specific github repository is a collection of various Ansible Playbooks to perform many different task. More Specifically, installing base configurations for many of the common services a person may offer on the AREDN Mesh network.</p>
 </div>
 <div class="section" id="ansible-use-case-example">
-<span id="ansible-use-case"></span><h1>Ansible Use Case Example<a class="headerlink" href="#ansible-use-case-example" title="Permalink to this headline">¶</a></h1>
+<span id="ansible-use-case"></span><h2>Ansible Use Case Example<a class="headerlink" href="#ansible-use-case-example" title="Permalink to this headline">¶</a></h2>
 <p>Say we want to have a way too run 1 command to install an apache2 webserver. We can create a YAML file with the following contents</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install MeshChat</span>
@@ -180,6 +183,7 @@
         <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">apache2</span>
         <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
 </pre></div>
+</div>
 </div>
 </div>
 
