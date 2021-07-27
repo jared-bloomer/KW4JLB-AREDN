@@ -1,6 +1,6 @@
 .. _`Introduction`:
 
-.. _introductione:
+.. _introduction:
 
 Introduction
 ============
