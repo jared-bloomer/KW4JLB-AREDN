@@ -7,3 +7,5 @@
 
   roles:
     - install_postfix
+    - install_dovecot
+    - install_squirrelmail
