@@ -10,4 +10,19 @@ Behind the AREDN Mesh nodes can be servers, in many cases Raspberry Pis because 
 For more information for AREDN Mesh Networks, please visit `http://arednmesh.org <http://arednmesh.org>`_
 
 
+What is contained in this Repo?
+===============================
+
+This repository is a collection on Ansible playbooks used to deploy various services on a Raspberry Pi to be used as a service in an AREDN Mesh network. Ansible is used for automation of a series of tasks.
+
+
+What is Ansible?
+================
+
+Ansible is a collection of tools based on Python that is developed and maintained by RedHat. Official Ansible Documentation can be Found `HERE <https://www.ansible.com/>`_. 
+
+Ansible is designed to automate repetitive task such as Installing software, deploying configurations, managing servers, and much more. 
+
+
+
 
