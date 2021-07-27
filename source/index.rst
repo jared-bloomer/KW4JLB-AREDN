@@ -11,6 +11,7 @@ Welcome to KW4JLB-AREDN's documentation!
    :caption: Contents:
    
    Introduction
+   Ansible
 
 
 
