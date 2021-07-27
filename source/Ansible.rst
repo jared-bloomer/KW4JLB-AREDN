@@ -3,6 +3,11 @@
 Ansible
 =======
 
+Ansible is a collection of tools based on Python that is developed and maintained by RedHat. Official Ansible Documentation can be Found `HERE <https://www.ansible.com/>`_.
+
+Ansible is designed to automate repetitive task such as Installing software, deploying configurations, managing servers, and much more.
+
+
 .. _How_Does_it_Work:
 
 How Does it Work?
