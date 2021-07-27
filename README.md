@@ -14,4 +14,10 @@ Finally
 Install Sphinx
 `pip install -U sphinx`
 
+# Process
 
+For a new repo, run `sphinx-quick-start` to generate the directories and files. 
+
+Make your changes in the `source` directory. You should only need to modify `.rst` files for content and `conf.py` for themes.
+
+Once done run the `publish.sh` script to compile the sphinx code into HTML files and move them to the docs folder. Once that is all complete the changes will automatically be pushed to the git repo and go live on your github pages site. 
