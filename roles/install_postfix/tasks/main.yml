@@ -4,6 +4,8 @@
     name: 
       - postfix
       - libsasl2-modules
+      - sasl2-bin
+      - libsasl2-2
       - mailutils
     state: latest
     update-cache: yes
