@@ -1,0 +1,39 @@
+---
+- name: Install Apache Web Server
+  apt:
+    name: apache2
+    state: latest
+
+- name: Enable Jessie Repo
+  apt_repository:
+    repo: deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi
+    state: present
+
+- name: Run apt update
+  apt:
+    update-cache: yes
+
+- name: Install Squirrelmail
+  apt:
+    name: squirrelmail
+    state: latest
+
+- name: Copy Squirrelmail to Apache
+  copy:
+    src: /etc/squirrelmail/apache.conf
+    dest: /etc/apache2/sites-available/squirrelmail.conf
+
+- name: enable Squirrelmail in Apache
+  file:
+    src: /etc/apache2/sites-available/squirrelmail.conf
+    dest: /etc/apache2/sites-enabled/squirrelmail.conf
+    state: link
+
+- name: Restart Apache
+  systemd:
+    name: apache2
+    state: restarted
+
+- name: Output
+  debug:
+    msg: "You can login to Squirrelmail at http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}/squirrelmail"

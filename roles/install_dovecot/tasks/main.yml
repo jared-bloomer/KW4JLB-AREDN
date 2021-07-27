@@ -1,0 +1,71 @@
+---
+- name: Install Dovecot Packages
+  apt:
+    name:
+      - dovecot-imapd
+      - dovecot-pop3d
+    state: latest
+
+- name: Configure Protocols
+  lineinfile:
+    path: /etc/dovecot/dovecot.conf
+    line: "protocols = pop3 pop3s imap imaps"
+    
+- name: Configure POP3 UID FOrmat
+  lineinfile:
+    path: /etc/dovecot/dovecot.conf
+    line: "pop3_uidl_format = %08Xu%08Xv"
+
+- name: Configure Mailbox Location
+  lineinfile:
+    path: /etc/dovecot/dovecot.conf
+    line: "mail_location = maildir:/home/%u/Maildir"
+
+- name: Configure Mailbox Location (2)
+  lineinfile:
+    path: /etc/dovecot/conf.d/10-mail.conf
+    regex: "mail_location ="
+    line: "mail_location = maildir:~/Maildir"
+
+- name: Frame Mailbox Directory for New Users
+  file:
+    path: /etc/skel/Maildir
+    state: directory
+    mode: 0700
+    owner: root
+    group: root    
+
+- name: Frame Mailbox Directory for New Users (2)
+  file:
+    path: /etc/skel/Maildir/.Drafts
+    state: directory
+    mode: 0755
+    owner: root
+    group: root    
+
+- name: Frame Mailbox Directory for New Users (3)
+  file:
+    path: /etc/skel/Maildir/.Sent
+    state: directory
+    mode: 0755
+    owner: root
+    group: root    
+
+- name: Frame Mailbox Directory for New Users (4)
+  file:
+    path: /etc/skel/Maildir/.Trash
+    state: directory
+    mode: 0755
+    owner: root
+    group: root    
+
+- name: Frame Mailbox Directory for New Users (5)
+  file:
+    path: /etc/skel/Maildir/.Templates
+    state: directory
+    mode: 0755
+    owner: root
+    group: root 
+
+
+   

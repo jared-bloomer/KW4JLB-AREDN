@@ -1,0 +1,11 @@
+---
+- name: Install Email
+  hosts: localhost
+  gather_facts: True
+  become: true
+  become_method: sudo
+
+  roles:
+    - install_postfix
+    - install_dovecot
+    - install_squirrelmail
