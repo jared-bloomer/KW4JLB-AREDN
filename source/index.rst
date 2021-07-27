@@ -8,17 +8,8 @@ Welcome to KW4JLB-AREDN's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Navigation:
    
    Introduction
    Ansible
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
