@@ -11,6 +11,9 @@ For more information for AREDN Mesh Networks, please visit `http://arednmesh.org
 
 .. _Who_can_use_AREDN:
 
+Who Can Use AREDN Mesh Networks?
+--------------------------------
+
 In order to use AREDN Mesh Networks, you must be a License Amateur Radio Operator, holding a license with the proper privileges for the Frequencies you will be using. In the United States of America, this is regulated by the Federal Communications Commission (FCC). They are the license issueing organization. More information about this can be found on the FCC website under `47 C.F.R, Part 97 <https://www.ecfr.gov/cgi-bin/text-idx?SID=a552d1b1f1e1a4c549c8906067e4e533&mc=true&node=pt47.5.97&rgn=div5>`_ of the Rules. 
 
 The Amateur Radio Relay League (ARRL) is the Organization in the Untied States that works with the FCC to ensure proper Licensing, License Examination, Policing, and Privilege Allocation. For more information on the ARRL, please visit `their website <http://www.arrl.org/>`_
