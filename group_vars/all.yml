@@ -8,4 +8,12 @@ meshchat_version: "1.02"
 meshchat_zone: "MeshChat" # This should be set to your configured MeshChat Zone fo your network
 meshchat_node: "localnode" # This should be set to your AREDN node running the meshchat api
 
+# POSTFIX SETTINGS
+postfix_use_gmail: true
+gmail_address: "test@gmail.com"
+gmail_password: "supersecure123"
+postfix_domain: "local.mesh"
+postfix_relayhost: "smtp.gmail.com"
+
+
 
