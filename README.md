@@ -36,6 +36,7 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 * Postfix/Dovecot/Squirrelmail
   * This is a bare bones configuration. More advanced configuration may be needed. 
+  * See the `scripts` directory for tools to add and delete mailboxes
   * To run this playbook run `ansible-playbook install_email.yml`
 
 ### File Sharing Programs
