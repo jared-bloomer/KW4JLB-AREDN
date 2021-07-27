@@ -14,17 +14,17 @@ Say we want to have a way too run 1 command to install an apache2 webserver. We 
 
 .. code-block:: yaml
 
----
-- name: Install MeshChat
-  hosts: localhost
-  gather_facts: True
-  become: true
-  become_method: sudo
-
-  tasks:
-    - name: Install Apache2
-      package:
-        name: apache2
-        state: present
+  ---
+  - name: Install MeshChat
+    hosts: localhost
+    gather_facts: True
+    become: true
+    become_method: sudo
+    
+    tasks:
+      - name: Install Apache2
+        package:
+          name: apache2
+          state: present
 
 
