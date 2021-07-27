@@ -14,6 +14,9 @@ Finally
 Install Sphinx
 `pip install -U sphinx`
 
+If using the sphinx_rtd_theme, you will also need to run 
+`pip install sphinx_rtd_theme`
+
 # Process
 
 For a new repo, run `sphinx-quick-start` to generate the directories and files. 
