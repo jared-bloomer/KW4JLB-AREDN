@@ -25,7 +25,7 @@ Say we want to have a way too run 1 command to install an apache2 webserver. We 
 .. code-block:: yaml
 
   ---
-  - name: Install MeshChat
+  - name: Install Apache2
     hosts: localhost
     gather_facts: True
     become: true
@@ -37,4 +37,5 @@ Say we want to have a way too run 1 command to install an apache2 webserver. We 
           name: apache2
           state: present
 
+We can save the above YAML to a file called `install_apache2.yml`. We can then tell Ansible to read it and take action with the command `ansible-playbook install_apache2.yml`. It will use the package module to use the Operating Systems package manage to install the package apache2. If it is already installed it will just report ok and will not take any action. However, we can change the state to latest and it will check and make sure the package apache2 is install and the latest version available. 
 
