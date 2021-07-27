@@ -7,4 +7,4 @@ AREDN Mesh Networks essentially are an "off grid" implementation of an Intranet 
 
 Behind the AREDN Mesh nodes can be servers, in many cases Raspberry Pis because of the small form factor and low power consumption, can run various services that can be exposed via the AREDN mesh nodes for users to connect to. Although it is not required to setup servers behinds the nodes. 
 
-For more information for AREDN Mesh Networks, please visit :ref:`http://arednmesh.org` <http://arednmesh.org>`
+For more information for AREDN Mesh Networks, please visit `http://arednmesh.org` <http://arednmesh.org>`_
