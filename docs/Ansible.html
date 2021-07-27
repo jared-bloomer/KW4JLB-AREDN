@@ -173,7 +173,7 @@
 <span id="ansible-use-case"></span><h2>Ansible Use Case Example<a class="headerlink" href="#ansible-use-case-example" title="Permalink to this headline">¶</a></h2>
 <p>Say we want to have a way too run 1 command to install an apache2 webserver. We can create a YAML file with the following contents</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install MeshChat</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Apache2</span>
   <span class="nt">hosts</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">localhost</span>
   <span class="nt">gather_facts</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
   <span class="nt">become</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -186,6 +186,7 @@
         <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
 </pre></div>
 </div>
+<p>We can save the above YAML to a file called <cite>install_apache2.yml</cite>. We can then tell Ansible to read it and take action with the command <cite>ansible-playbook install_apache2.yml</cite>. It will use the package module to use the Operating Systems package manage to install the package apache2. If it is already installed it will just report ok and will not take any action. However, we can change the state to latest and it will check and make sure the package apache2 is install and the latest version available.</p>
 </div>
 </div>
 
