@@ -1,6 +1,4 @@
-.. _Introduction:
-
-  :Introduction: 
+.. _`Introduction`:
 
 Introduction
 ============
