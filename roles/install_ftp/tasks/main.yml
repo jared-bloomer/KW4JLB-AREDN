@@ -26,6 +26,7 @@
     path: /etc/vsftpd.conf
     regex: "anonymous_enable="
     line: "anonymous_enable=YES"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (2)
   lineinfile:
@@ -67,18 +68,21 @@
     path: /etc/vsftpd.conf
     regex: "anon_upload_enable="
     line: "anon_upload_enable=YES"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (9)
   lineinfile:
     path: /etc/vsftpd.conf
     regex: "anon_mkdir_write_enable="
     line: "anon_mkdir_write_enable=YES"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (10)
   lineinfile:
     path: /etc/vsftpd.conf
     regex: "anon_root="
     line: "anon_root=/FTP"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (11)
   lineinfile:
@@ -91,24 +95,28 @@
     path: /etc/vsftpd.conf
     regex: "anon_umask="
     line: "anon_umask=022"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (13)
   lineinfile:
     path: /etc/vsftpd.conf
     regex: "anon_other_write_enable="
     line: "anon_other_write_enable=YES"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (14)
   lineinfile:
     path: /etc/vsftpd.conf
     regex: "no_anon_password="
     line: "no_anon_password=YES"
+  when: ftp_anonymous_access == true
 
 - name: Update vsftpd configs (15)
   lineinfile:
     path: /etc/vsftpd.conf
     regex: "hide_ids="
     line: "hide_ids=YES"
+  when: ftp_anonymous_access == true
 
 - name: restart vsftpd
   systemd:
