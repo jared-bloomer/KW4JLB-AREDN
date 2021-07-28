@@ -7,9 +7,11 @@ Welcome to KW4JLB-AREDN's documentation!
 ========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Navigation:
    
    Introduction
    Ansible
+   Services
+
 
