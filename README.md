@@ -41,6 +41,10 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 ### File Sharing Programs
 
+* FTP (vsftpd)
+  * By default anonymous access is disabled. to enable it set `ftp_anonymous_access: true` in group_vars/all.yml
+  * To run this playbook run `ansible-playbook install_ftp.yml`
+
 ### VoIP Audio/Phone Conferencing Programs
 
 ### Video Streaming and Surveillance Programs
