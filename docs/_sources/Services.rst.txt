@@ -1,0 +1,53 @@
+.. _`Services`:
+
+Services
+========
+
+Chat
+----
+
+Mattermost
+~~~~~~~~~~
+
+
+MeshChat
+~~~~~~~~
+
+
+Email
+-----
+
+Postfix/Dovecot/Squirrelmail
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+File Sharing
+------------
+
+FTP
+~~~
+
+Web
+~~~
+
+Collaborative Editing
+~~~~~~~~~~~~~~~~~~~~~
+
+
+VoIP Audio/Phone Conferencing
+-----------------------------
+
+
+Video Streaming and Surveillance
+--------------------------------
+
+
+Computer Aided Dispatch
+-----------------------
+
+
+Other
+-----
+
+
+
