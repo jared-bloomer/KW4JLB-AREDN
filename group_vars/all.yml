@@ -15,5 +15,6 @@ gmail_password: "SuperSecure1234"
 postfix_domain: "local.mesh"
 postfix_relayhost: "smtp.gmail.com"
 
-
+# VSFTPD Settings
+ftp_anonymous_access: false
 

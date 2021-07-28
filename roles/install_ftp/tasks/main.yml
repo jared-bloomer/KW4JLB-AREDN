@@ -1,0 +1,124 @@
+---
+- name: Install VSFTPD
+  apt:
+    name: vsftpd
+    state: latest
+    update-cache: yes
+
+- name: Create FTP directory
+  file:
+    path: /FTP
+    state: directory
+    mode: 0555
+    owner: ftp
+    group: ftp
+
+- name: Create FTP files directory
+  file:
+    path: /FTP/files
+    state: directory
+    mode: 0777
+    owner: ftp
+    group: ftp
+
+- name: Update vsftpd configs (1)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "anonymous_enable="
+    line: "anonymous_enable=YES"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (2)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "local_enable="
+    line: "local_enable=NO"
+
+- name: Update vsftpd configs (3)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "write_enable="
+    line: "write_enable=YES"
+
+- name: Update vsftpd configs (4)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "chroot_local_user="
+    line: "chroot_local_user=NO"
+
+- name: Update vsftpd configs (5)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "listen_ipv6="
+    line: "listen_ipv6=NO"
+
+- name: Update vsftpd configs (6)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "listen="
+    line: "listen=YES"
+
+- name: Update vsftpd configs (7)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    line: "local_root=/FTP"
+
+- name: Update vsftpd configs (8)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "anon_upload_enable="
+    line: "anon_upload_enable=YES"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (9)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "anon_mkdir_write_enable="
+    line: "anon_mkdir_write_enable=YES"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (10)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "anon_root="
+    line: "anon_root=/FTP"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (11)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "allow_writeable_chroot="
+    line: "allow_writeable_chroot=YES"
+
+- name: Update vsftpd configs (12)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "anon_umask="
+    line: "anon_umask=022"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (13)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "anon_other_write_enable="
+    line: "anon_other_write_enable=YES"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (14)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "no_anon_password="
+    line: "no_anon_password=YES"
+  when: ftp_anonymous_access == true
+
+- name: Update vsftpd configs (15)
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regex: "hide_ids="
+    line: "hide_ids=YES"
+  when: ftp_anonymous_access == true
+
+- name: restart vsftpd
+  systemd:
+    name: vsftpd
+    state: restarted

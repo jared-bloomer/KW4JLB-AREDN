@@ -1,3 +1,6 @@
 *.retry
 ansible.cfg
+build/*
+env/*
+source/* 
 
