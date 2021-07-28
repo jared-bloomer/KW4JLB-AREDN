@@ -9,6 +9,6 @@ make html
 rm -Rf docs/*
 mv build/html/* docs/
 git add docs/*
-git commit -m "Publishing"
+git commit -m "Publishing `date +%Y-%m-%d\ %H:%M:%S`"
 git push
 
