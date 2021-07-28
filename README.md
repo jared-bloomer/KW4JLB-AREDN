@@ -5,6 +5,9 @@ If you would like to learn more about AREDN Mesh Networks, please visit [AREDN M
 
 If you would like to learn more about Ansible, please visit [Redhat's Ansible Page](https://www.ansible.com/)
 
+## For Official Repository Documentation
+For the offical documentation for this repository please go to [the github pages site](https://jared-bloomer.github.io/KW4JLB-AREDN/)
+
 ## Notes
 These Ansible Playbooks were built on a Raspberry Pi 4 (4GB) running Raspberry OS. Raspberry OS is built from Debian so in theory this should work on any Debian Based Operating system on ARM architecture. 
 
