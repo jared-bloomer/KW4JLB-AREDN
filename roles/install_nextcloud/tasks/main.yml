@@ -5,15 +5,21 @@
       - apache2 
       - mariadb-server 
       - libapache2-mod-php7.3
-      - php-gd 
-      - php-json 
-      - php-mysql 
-      - php-curl 
-      - php-mbstring 
-      - php-intl 
+      - php-apcu
+      - php7.3-gd
+      - php7.3-json
+      - php7.3-mysql
+      - php7.3-curl
+      - php7.3-mbstring
+      - php7.3-intl
       - php-imagick 
-      - php-xml 
-      - php-zip
+      - php7.3-xml
+      - php7.3-zip
+      - php7.3-bz2
+      - php7.3-ldap
+      - php7.3-imap
+      - php7.3-bcmath
+      - php7.3-gmp
     state: latest
 
 - name: Set PHP memory limit
@@ -44,6 +50,11 @@
   systemd:
     name: apache2
     state: restarted
+
+- name: Run Nextcloud Installer
+  command: 
+    chdir: /var/www/html/nextcloud
+    cmd: "sudo -u www-data php occ  maintenance:install --database \"mysql\" --database-name \"nextcloud\"  --database-user \"{{ nextcloud_mysql_username }}\" --database-pass \"{{ nextcloud_mysql_password }}\" --admin-user \"{{ nextcloud_admin_username }}\" --admin-pass \"{{ nextcloud_admin_password }}\""
 
 - name: Testing if NextCloud is available
   uri:
