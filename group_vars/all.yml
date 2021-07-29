@@ -22,4 +22,5 @@ ftp_anonymous_access: false
 nextcloud_version: "22.0.0" # Be sure to check if this version is compatible with the installed php version
 nextcloud_mysql_username: "nextcloudadmin" # Make this Unique
 nextcloud_mysql_password: "ChangeMe" # Make this Unique
-
+nextcloud_admin_username: "admin" # admin user to login to nextcloud with
+nextcloud_admin_password: "ChangeMe" # Make this Unique
