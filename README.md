@@ -48,6 +48,10 @@ Run the command `chmod +x install.sh && bash install.sh`
   * By default anonymous access is disabled. To enable it set `ftp_anonymous_access: true` in group_vars/all.yml
   * To run this playbook run `ansible-playbook install_ftp.yml`
 
+* NextCloud
+  * This is a little heavy on the resource consumption. It is recommended to have a minimum 4GB of memory for this
+  * To run this playbook run `ansible-playbook install_nextcloud.yml`
+
 ### VoIP Audio/Phone Conferencing Programs
 
 ### Video Streaming and Surveillance Programs
