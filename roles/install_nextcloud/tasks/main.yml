@@ -41,15 +41,41 @@
     group: www-data
     mode: 0750
 
+- name: Install Redis Server
+  apt:
+    name:
+      - redis-server
+      - php-redis
+    state: present
+
 - name: Ensure Apache php7.3 module is enabled
   apache2_module:
     name: php7.3
     state: present
 
+- name: Update apcu Config for cli
+  lineinfile:
+    path: /etc/php/7.3/cli/conf.d/20-apcu.ini
+    line: "apc.enable_cli=1"
+
 - name: restart apache2
   systemd:
     name: apache2
     state: restarted
+
+- name: Update nextcloud config
+  lineinfile:
+    path: /var/www/html/nextcloud/config/config.php
+    line: "{{ item }}"
+    insertbefore: ");"
+  loop:
+    - "  'allow_local_remote_servers' => true,"
+    - "  'memcache.local' => '\\OC\\Memcache\\Redis',"
+    - "  'redis' =>"
+    - "  array ("
+    - "    'host' => 'localhost',"
+    - "    'port' => 6379,"
+    - "  ),"
 
 - name: Run Nextcloud Installer
   command: 
@@ -67,8 +93,6 @@
     msg: 
       - "You can access nextcloud at http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}/nextcloud"
       - "You will need the following information to setup Next Cloud:"
-      - "Database Username: {{ nextcloud_mysql_username }}"
-      - "Dataebase Password: {{ nextcloud_mysql_password }}"
-      - "Database Name: nextcloud"
-      - "Database Host: localhost"
+      - "NextCloud Admin Username: {{ nextcloud_admin_username }}"
+      - "NextCloud Admin Password: {{ nextcloud_admin_password }}"
   when: nextcloud_status.status == 200
