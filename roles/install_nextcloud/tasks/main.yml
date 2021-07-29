@@ -20,7 +20,7 @@
   lineinfile:
     path: /etc/php/7.3/apache2/php.ini
     regex: "memory_limit ="
-    line: "memory_limit = 512M"
+    line: "memory_limit = 1024M"
 
 - name: Download Nextcloud install
   get_url:
