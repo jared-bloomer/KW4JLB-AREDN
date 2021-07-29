@@ -63,24 +63,24 @@
     name: apache2
     state: restarted
 
-- name: Update nextcloud config
-  lineinfile:
-    path: /var/www/html/nextcloud/config/config.php
-    line: "{{ item }}"
-    insertbefore: ");"
-  loop:
-    - "  'allow_local_remote_servers' => true,"
-    - "  'memcache.local' => '\\OC\\Memcache\\Redis',"
-    - "  'redis' =>"
-    - "  array ("
-    - "    'host' => 'localhost',"
-    - "    'port' => 6379,"
-    - "  ),"
-
 - name: Run Nextcloud Installer
   command: 
     chdir: /var/www/html/nextcloud
-    cmd: "sudo -u www-data php occ  maintenance:install --database \"mysql\" --database-name \"nextcloud\"  --database-user \"{{ nextcloud_mysql_username }}\" --database-pass \"{{ nextcloud_mysql_password }}\" --admin-user \"{{ nextcloud_admin_username }}\" --admin-pass \"{{ nextcloud_admin_password }}\""
+    cmd: "php occ  maintenance:install --database \"mysql\" --database-name \"nextcloud\"  --database-user \"{{ nextcloud_mysql_username }}\" --database-pass \"{{ nextcloud_mysql_password }}\" --admin-user \"{{ nextcloud_admin_username }}\" --admin-pass \"{{ nextcloud_admin_password }}\""
+  become: true
+  become_user: www-data
+
+- name: Generate nextcloud config
+  command:
+    chdir: /var/www/html/nextcloud
+    cmd: "{{ item }}"
+  loop:
+    - "sudo -u www-data php occ config:system:set allow_local_remote_servers --value=true"
+    - "sudo -u www-data php occ config:system:set memcache.local --value='\\OC\\Memcache\\Redis'"
+    - "sudo -u www-data php occ config:system:set redis host --value=localhost"
+    - "sudo -u www-data php occ config:system:set redis port --value=6379"
+    - "sudo -u www-data php occ config:system:set trusted_domains 1 --value={{ (ansible_default_ipv4.network) | ipaddr('network') }}"
+    - "sudo -u www-data php occ config:system:set trusted_domains 2 --value={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 
 - name: Testing if NextCloud is available
   uri:
