@@ -1,0 +1,63 @@
+---
+- name: Install Required Packages
+  apt:
+    name:
+      - apache2 
+      - mariadb-server 
+      - libapache2-mod-php7.3
+      - php-gd 
+      - php-json 
+      - php-mysql 
+      - php-curl 
+      - php-mbstring 
+      - php-intl 
+      - php-imagick 
+      - php-xml 
+      - php-zip
+    state: latest
+
+- name: Set PHP memory limit
+  lineinfile:
+    path: /etc/php/7.3/apache2/php.ini
+    regex: "memory_limit ="
+    line: "memory_limit = 512M"
+
+- name: Download Nextcloud install
+  get_url:
+    url: "https://download.nextcloud.com/server/releases/nextcloud-{{ nextcloud_version }}.tar.bz2"
+    dest: "/tmp/nextcloud-{{ nextcloud_version }}.tar.bz2"
+
+- name: Extract Files
+  unarchive:
+    src: "/tmp/nextcloud-{{ nextcloud_version }}.tar.bz2"
+    dest: "/var/www/html"
+    owner: www-data
+    group: www-data
+    mode: 0750
+
+- name: Ensure Apache php7.3 module is enabled
+  apache2_module:
+    name: php7.3
+    state: present
+
+- name: restart apache2
+  systemd:
+    name: apache2
+    state: restarted
+
+- name: Testing if NextCloud is available
+  uri:
+    url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}/nextcloud"
+    return_content: true
+  register: nextcloud_status
+
+- name: NextCloud Web Info
+  debug:
+    msg: 
+      - "You can access nextcloud at http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}/nextcloud"
+      - "You will need the following information to setup Next Cloud:"
+      - "Database Username: {{ nextcloud_mysql_username }}"
+      - "Dataebase Password: {{ nextcloud_mysql_password }}"
+      - "Database Name: nextcloud"
+      - "Database Host: localhost"
+  when: nextcloud_status.status == 200

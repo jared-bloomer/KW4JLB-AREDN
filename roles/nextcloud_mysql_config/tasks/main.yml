@@ -1,0 +1,32 @@
+---
+- name: Preparing to copy my.cnf for root user
+  file:
+    path: /etc/mysql/debian.cnf
+    mode: o+r
+
+- name: copy my.cnf for root user
+  copy:
+    src: /etc/mysql/debian.cnf
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+  become: yes
+  become_user: root
+
+- name: Reverting changes from  copy my.cnf for root user
+  file:
+    path: /etc/mysql/debian.cnf
+    mode: o-r
+
+- name: Create Database
+  community.mysql.mysql_db:
+    name: nextcloud
+    state: present
+
+- name: Create DB User
+  community.mysql.mysql_user:
+    name: "{{ nextcloud_mysql_username }}"
+    password: "{{ nextcloud_mysql_password }}"
+    priv: 'nextcloud.*:ALL'
+    state: present

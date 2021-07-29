@@ -1,0 +1,11 @@
+---
+- name: Install NextCloud
+  hosts: localhost
+  gather_facts: True
+  become: true
+  become_method: sudo
+
+  roles:
+    - install_mysql
+    - nextcloud_mysql_config
+    - install_nextcloud
