@@ -1,0 +1,12 @@
+---
+- name: Install VoIP
+  hosts: localhost
+  gather_facts: True
+  become: true
+  become_method: sudo
+
+  roles:
+    - install_asterisk
+    - install_mysql_odbc
+    - install_php7.4
+    - install_freepbx

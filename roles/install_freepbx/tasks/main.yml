@@ -1,0 +1,177 @@
+---
+- name: Install Prerequisite Packages
+  apt:
+    name:
+      - bison 
+      - flex 
+      - php7.4-curl 
+      - php7.4-cli 
+      - php7.4-common 
+      - php7.4-mysql 
+      - php7.4-gd 
+      - php7.4-mbstring
+      - php7.4-intl 
+      - php7.4-xml 
+      - php-pear 
+      - sox 
+      - libncurses5-dev 
+      - libssl-dev 
+      - mpg123 
+      - libxml2-dev 
+      - libnewt-dev 
+      - sqlite3
+      - libsqlite3-dev 
+      - pkg-config 
+      - automake 
+      - libtool 
+      - autoconf 
+      - uuid 
+      - uuid-dev
+      - libasound2-dev 
+      - libogg-dev 
+      - libvorbis-dev 
+      - libicu-dev 
+      - libcurl4-openssl-dev 
+      - libical-dev 
+      - libneon27-dev 
+      - libsrtp2-dev
+      - libspandsp-dev 
+      - subversion 
+      - libtool-bin 
+      - python-dev 
+      - dirmngr 
+      - sendmail-bin 
+      - sendmail
+      - libapache2-mpm-itk
+      - nodejs
+      - npm
+    state: latest
+    update-cache: yes
+
+- name: Adjusting php 7.4 upload_max_filesize
+  lineinfile:
+    path: /etc/php/7.4/apache2/php.ini
+    regex: "upload_max_filesize="
+    line: "upload_max_filesize=128M"
+
+- name: Adjusting php 7.4 post_max_size
+  lineinfile:
+    path: /etc/php/7.4/apache2/php.ini
+    regex: "post_max_size="
+    line: "post_max_size=128M"
+
+- name: Ensure Asterisk is stopped 
+  systemd:
+    name: asterisk
+    state: stopped
+
+- name: Get Orphaned PIDS
+  pids:
+    name: asterisk
+  register: orphanpids
+
+- name: List Orphaned Pids
+  debug:
+    msg: "{{ orphanpids.pids }}"
+  when: orphanpids.pids | length > 0
+
+- name: Force stop any Orphaned processes
+  command: "kill -9 {{ orphanpids.pids | join(' ') }}" 
+  become: true
+  become_user: root
+  ignore_errors: yes
+  when: orphanpids.pids | length > 0
+
+- name: Download FreePBX
+  get_url:
+    url: http://mirror.freepbx.org/modules/packages/freepbx/7.4/freepbx-16.0-latest.tgz
+    dest: /tmp/freepbx-16.0-latest.tgz
+
+- name: Extract Download
+  unarchive:
+    src: /tmp/freepbx-16.0-latest.tgz
+    dest: /usr/src/
+
+- name: Create /etc/asterisk/modules.conf
+  file:
+    path: /etc/asterisk/modules.conf
+    state: touch
+
+- name: Create /etc/asterisk/cdr.conf
+  file:
+    path: /etc/asterisk/cdr.conf
+    state: touch
+
+- name: Ensure Asterisk is running
+  systemd:
+    name: asterisk
+    state: started
+
+- name: Attempt to enable core modules before install
+  command: "{{ item }}"
+  become: true
+  become_user: root
+  ignore_errors: yes
+  loop:
+    - "fwconsole ma install core"
+    - "fwconsole ma enable core"
+
+- name: Create /var/www/freepbx
+  file:
+    path: /var/www/freepbx
+    state: directory
+
+- name: Install FreePBX
+  command:
+    chdir: /usr/src/freepbx
+    cmd: php install --webroot=/var/www/freepbx -n
+
+- name: activate additional FreePBX Modules
+  command:
+    cmd: "{{ item }}"
+  loop:
+    - "fwconsole ma disablerepo commercial"
+    - "fwconsole ma installall"
+    - "fwconsole ma delete firewall"
+    - "fwconsole reload"
+    - "fwconsole restart"
+
+- name: Enable Apache ReWrite Module
+  apache2_module:
+    name: rewrite
+    state: present
+
+- name: Stage Apache Virtual Host file
+  file:
+    path: /etc/apache2/sites-available/freepbx.conf
+    state: touch 
+
+- name: Create Apache Virtual Host File
+  blockinfile:
+    path: /etc/apache2/sites-available/freepbx.conf
+    block: |
+      Listen 81
+      <VirtualHost *:81>
+      	ServerAdmin webmaster@localhost
+      	DocumentRoot /var/www/freepbx
+      	<IfModule mpm_itk_module>
+        		AssignUserId asterisk asterisk
+      	</IfModule>
+        <Directory /var/www/freepbx>
+          Options Indexes FollowSymLinks
+          AllowOverride All
+        </Directory>
+      	ErrorLog ${APACHE_LOG_DIR}/freepbx_error.log
+      	CustomLog ${APACHE_LOG_DIR}/freepbx_access.log combined
+      </VirtualHost>
+
+- name: Enable Apache Virtual Host
+  file:
+    src: /etc/apache2/sites-available/freepbx.conf
+    dest: /etc/apache2/sites-enabled/freepbx.conf
+    state: link
+
+- name: restart Apache2
+  systemd:
+    name: apache2
+    state: restarted
