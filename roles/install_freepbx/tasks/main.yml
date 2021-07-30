@@ -43,8 +43,27 @@
       - sendmail-bin 
       - sendmail
       - libapache2-mpm-itk
+      - nodejs
+      - npm
     state: latest
     update-cache: yes
+
+- name: Adjusting php 7.4 upload_max_filesize
+  lineinfile:
+    path: /etc/php/7.4/apache2/php.ini
+    regex: "upload_max_filesize="
+    line: "upload_max_filesize=128M"
+
+- name: Adjusting php 7.4 post_max_size
+  lineinfile:
+    path: /etc/php/7.4/apache2/php.ini
+    regex: "post_max_size="
+    line: "post_max_size=128M"
+
+- name: Ensure Asterisk is stopped 
+  systemd:
+    name: asterisk
+    state: stopped
 
 - name: Download FreePBX
   get_url:
@@ -71,6 +90,15 @@
     name: asterisk
     state: started
 
+- name: Attempy to enable core modules before install
+  command: "{{ item }}"
+  become: true
+  become_user: root
+  ignore_errors: yes
+  loop:
+    - "fwconsole ma install core"
+    - "fwconsole ma enable core"
+
 - name: Create /var/www/freepbx
   file:
     path: /var/www/freepbx
@@ -80,6 +108,16 @@
   command:
     chdir: /usr/src/freepbx
     cmd: php install --webroot=/var/www/freepbx -n
+
+- name: activate additional FreePBX Modules
+  command:
+    cmd: "{{ item }}"
+  loop:
+    - "fwconsole ma disablerepo commercial"
+    - "fwconsole ma installall"
+    - "fwconsole ma delete firewall"
+    - "fwconsole reload"
+    - "fwconsole restart"
 
 - name: Stage Apache Virtual Host file
   file:
