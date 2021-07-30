@@ -1,0 +1,78 @@
+---
+- name: Install libssl
+  apt: 
+    name: "libssl1.0.2"
+    state: latest
+
+- name: Install ODBC Drivers
+  apt:
+    name: "mariadb-plugin-connect"
+    state: latest
+
+- name: Download MariaDB Connector Source Code
+  git:
+    repo: https://github.com/MariaDB/mariadb-connector-odbc.git
+    dest: /tmp/mariadb-connector-odbc
+
+- name: Install packages to compile code
+  apt:
+    name:
+      - cmake 
+      - make 
+      - gcc 
+      - libssl-dev 
+      - unixodbc 
+      - odbcinst 
+      - unixodbc-dev
+    state: latest
+
+- name: Compile code (This takes a while. Get a cup of coffee)
+  command: 
+    chdir: /tmp/mariadb-connector-odbc
+    cmd: cmake -LH -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_SSL=OPENSSL -DDM_DIR=/usr/lib/arm-linux-gnueabihf -DCMAKE_C_FLAGS_RELEASE:STRING="-w"
+
+- name: Compile Release (This takes longer. Get a pot of coffee)
+  command:
+    chdir: /tmp/mariadb-connector-odbc
+    cmd: cmake --build . --config Release
+  become: true
+  become_user: root
+
+- name: Install compiled code
+  command:
+    chdir: /tmp/mariadb-connector-odbc
+    cmd: make install
+  become: true
+  become_user: root
+
+- name: create /etc/odbcinst.ini
+  file:
+    path: /etc/odbcinst.ini
+    state: touch
+    owner: root
+    group: root
+
+- name: Write /etc/odbcinst.ini
+  lineinfile:
+    path: /etc/odbcinst.ini
+    line: "{{ item }}"
+  loop:
+    - "[MySQL]"
+    - "Description = ODBC for MySQL (MariaDB)"
+    - "Driver = /usr/local/lib/mariadb/libmaodbc.so"
+    - "FileUsage = 1"
+
+- name: Write /etc/odbc.ini
+  lineinfile:
+    path: /etc/odbc.ini
+    line: "{{ item }}"
+  loop:
+    - "[MySQL-asteriskcdrdb]"
+    - "Description = MySQL connection to 'asteriskcdrdb' database"
+    - "Driver = MySQL"
+    - "Server = localhost"
+    - "Database = asteriskcdrdb"
+    - "Port = 3306"
+    - "Socket = /var/run/mysqld/mysqld.sock"
+    - "Option = 3"
+

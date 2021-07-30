@@ -1,0 +1,60 @@
+---
+- name: Download FreePBX
+  get_url:
+    url: http://mirror.freepbx.org/modules/packages/freepbx/7.4/freepbx-16.0-latest.tgz
+    dest: /tmp/freepbx-16.0-latest.tgz
+
+- name: Extract Download
+  unarchive:
+    src: /tmp/freepbx-16.0-latest.tgz
+    dest: /usr/src/
+
+- name: Create /etc/asterisk/modules.conf
+  file:
+    path: /etc/asterisk/modules.conf
+    state: touch
+
+- name: Create /etc/asterisk/cdr.conf
+  file:
+    path: /etc/asterisk/cdr.conf
+    state: touch
+
+- name: Ensure Asterisk is running
+  systemd:
+    name: asterisk
+    state: started
+
+- name: Create /var/www/freepbx
+  file:
+    path: /var/www/freepbx
+    state: directory
+
+- name: Install FreePBX
+  command:
+    chdir: /usr/src/freepbx
+    cmd: php install.php --webroot=/var/www/freepbx -n
+
+- name: update Apache2 Alias
+  blockinfile:
+    path: /etc/apache2/mods-available/alias.conf
+    insertbefore: "</IfModule>"
+    block: |
+        Alias /freepbx "/var/www/freepbx/public"
+        <Directory /var/www/freepbx/public>
+               Options Indexes FollowSymLinks MultiViews
+               Order allow,deny
+               AllowOverride All
+               Allow from all
+        </Directory>
+        Alias /freepbx/admin "/var/www/freepbx/public/admin"
+        <Directory /var/www/freepbx/public/admin>
+               AuthType Basic
+               AuthName "Restricted Area"
+               AuthUserFile freepbx-passwd
+               Require user admin
+        </Directory>
+
+- name: restart Apache2
+  systemd:
+    name: apache2
+    state: restarted

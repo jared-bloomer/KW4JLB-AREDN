@@ -1,0 +1,11 @@
+---
+- name: Update System
+  apt:
+    update-cache: yes
+
+- name: Install Asterisk PBX
+  apt:
+    name:
+      - asterisk
+    state: latest
+
