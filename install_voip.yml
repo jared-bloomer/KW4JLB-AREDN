@@ -8,4 +8,5 @@
   roles:
     - install_asterisk
     - install_mysql_odbc
+    - install_php7.4
     - install_freepbx
