@@ -65,6 +65,23 @@
     name: asterisk
     state: stopped
 
+- name: Get Orphaned PIDS
+  pids:
+    name: asterisk
+  register: orphanpids
+
+- name: List Orphaned Pids
+  debug:
+    msg: "{{ orphanpids.pids }}"
+  when: orphanpids.pids | length > 0
+
+- name: Force stop any Orphaned processes
+  command: "kill -9 {{ orphanpids.pids | join(' ') }}" 
+  become: true
+  become_user: root
+  ignore_errors: yes
+  when: orphanpids.pids | length > 0
+
 - name: Download FreePBX
   get_url:
     url: http://mirror.freepbx.org/modules/packages/freepbx/7.4/freepbx-16.0-latest.tgz
@@ -90,7 +107,7 @@
     name: asterisk
     state: started
 
-- name: Attempy to enable core modules before install
+- name: Attempt to enable core modules before install
   command: "{{ item }}"
   become: true
   become_user: root
@@ -119,6 +136,11 @@
     - "fwconsole reload"
     - "fwconsole restart"
 
+- name: Enable Apache ReWrite Module
+  apache2_module:
+    name: rewrite
+    state: present
+
 - name: Stage Apache Virtual Host file
   file:
     path: /etc/apache2/sites-available/freepbx.conf
@@ -135,6 +157,10 @@
       	<IfModule mpm_itk_module>
         		AssignUserId asterisk asterisk
       	</IfModule>
+        <Directory /var/www/freepbx>
+          Options Indexes FollowSymLinks
+          AllowOverride All
+        </Directory>
       	ErrorLog ${APACHE_LOG_DIR}/freepbx_error.log
       	CustomLog ${APACHE_LOG_DIR}/freepbx_access.log combined
       </VirtualHost>
