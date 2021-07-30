@@ -54,6 +54,11 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 ### VoIP Audio/Phone Conferencing Programs
 
+* Asterisk/FreePBX
+  * This can be heavy on resources. It is recommended to run on a deditcated Raspberry pi of at least 4GB Memory
+  * Access freePBX by going to http://<IP of you Raspberry PI>:81
+  * To run this playbook run `ansible-playbook install_voip.yml`
+  
 ### Video Streaming and Surveillance Programs
 
 ### Computer Aided Dispatch Programs
