@@ -69,3 +69,6 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 ### Other Programs
 
+* Duckhunt
+  * This is a web browser based version of the classic Super Nintendo Game Duckhunt
+  * To run this playbook run `ansible-playbook install_game_duckhunt.yml`
