@@ -24,3 +24,10 @@ nextcloud_mysql_username: "nextcloudadmin" # Make this Unique
 nextcloud_mysql_password: "ChangeMe" # Make this Unique
 nextcloud_admin_username: "admin" # admin user to login to nextcloud with
 nextcloud_admin_password: "ChangeMe" # Make this Unique
+
+# GAMES
+########
+
+# Duckhunt
+duckhunt_port: 8180
+

@@ -52,6 +52,10 @@ Run the command `chmod +x install.sh && bash install.sh`
   * This is a little heavy on the resource consumption. It is recommended to have a minimum 4GB of memory for this
   * To run this playbook run `ansible-playbook install_nextcloud.yml`
 
+* Apache2 Web Server
+  * This is a barebone install of the Apache2 Web Server
+  * To run this playbook run `ansible-playbook install_apache2.yml`
+
 ### VoIP Audio/Phone Conferencing Programs
 
 * Asterisk/FreePBX
@@ -65,3 +69,6 @@ Run the command `chmod +x install.sh && bash install.sh`
 
 ### Other Programs
 
+* Duckhunt
+  * This is a web browser based version of the classic Super Nintendo Game Duckhunt
+  * To run this playbook run `ansible-playbook install_game_duckhunt.yml`

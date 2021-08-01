@@ -1,0 +1,63 @@
+---
+- name: Ensure Apache2 Web Server is installed
+  apt:
+    name: apache2
+    state: present
+
+- name: Start Apache2 Web Server
+  systemd:
+    name: apache2
+    state: started
+
+- name: Create Games Directory
+  file:
+    path: /var/www/games
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0755
+
+- name: Create duckhunt directory
+  file:
+    path: /var/www/games/duckhunt
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0755
+
+- name: Download Game
+  git:
+    repo: https://github.com/grosbouddha/duckhunt.git
+    dest: /var/www/games/duckhunt
+
+- name: Set Permissions
+  file:
+    path: /var/www/games/duckhunt
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Load Apache2 VirtualHost file
+  template:
+    src: templates/apache_vs_duckhunt.conf.j2
+    dest: /etc/apache2/sites-available/duckhunt.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable Apache2 VirtualHost
+  file:
+    src: /etc/apache2/sites-available/duckhunt.conf
+    dest: /etc/apache2/sites-enabled/duckhunt.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  become_user: root
+
+- name: Reload Apache2
+  systemd:
+    name: apache2
+    state: reloaded
+
+
