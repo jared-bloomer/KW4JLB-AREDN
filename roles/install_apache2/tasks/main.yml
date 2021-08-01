@@ -1,0 +1,7 @@
+---
+- name: Install Apache2 Web Server
+  apt:
+    name: apache2
+    state: latest
+    update-cache: yes
+
