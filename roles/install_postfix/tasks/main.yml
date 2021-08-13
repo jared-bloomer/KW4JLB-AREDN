@@ -72,6 +72,20 @@
     line: "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"
   when: postfix_use_gmail == true
 
+- name: Set SASL Options
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regex: "smtp_sasl_security_options ="
+    line: "smtp_sasl_security_options ="
+  when: postfix_use_gmail == true
+
+- name: Set SASL TLS Security Options
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regex: "smtp_sasl_tls_security_options ="
+    line: "smtp_sasl_tls_security_options = noanonymous"
+  when: postfix_use_gmail == true
+
 - name: Process Password file
   command: postmap /etc/postfix/sasl_passwd
   when: postfix_use_gmail == true
