@@ -1,0 +1,12 @@
+---
+- name: Install SnipeIT Asset Management 
+  hosts: localhost
+  gather_facts: True
+  become: true
+  become_method: sudo
+
+  roles:
+    - install_postfix
+    - install_mysql
+    - snipeit_create_db
+    - install_snipeit

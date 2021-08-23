@@ -1,0 +1,172 @@
+---
+- name: Install Prerequisites
+  apt:
+    name:
+      - php
+      - php-json
+      - php-mbstring
+      - php-tokenizer
+      - php-curl
+      - php-mysql
+      - php-ldap
+      - php-zip
+      - php-bcmath
+      - php-xml
+      - php-imagick
+      - php-gd
+    state: latest
+
+- name: Enable PHP Fileinfo extension for Apache2
+  lineinfile:
+    path: /etc/php/7.3/apache2/php.ini
+    regex: ";extension=fileinfo"
+    line: "extension=fileinfo"
+
+- name: Enable PHP Fileinfo extension for CLI
+  lineinfile:
+    path: /etc/php/7.3/cli/php.ini
+    regex: ";extension=fileinfo"
+    line: "extension=fileinfo"
+
+- name: Restart apache2
+  systemd:
+    name: apache2
+    state: restarted
+
+- name: Make /var/www/snipeit
+  file:
+    path: /var/www/snipeit
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Download SnipeIt
+  git:
+    repo: https://github.com/snipe/snipe-it
+    dest: /var/www/snipeit
+    clone: yes
+    update: yes
+
+- name: Install Composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  args:
+    creates: /usr/local/bin/composer
+
+- name: Initialize  Composer
+  composer:
+    command: install
+    working_dir: /var/www/snipeit
+  
+- name: Clear PHP Artisian Cache
+  command:
+    cmd: php artisan config:clear
+    chdir: /var/www/snipeit
+  ignore_errors: true
+
+- name: Creating .env File
+  copy:
+    src: /var/www/snipeit/.env.example
+    dest: /var/www/snipeit/.env
+
+- name: Generate new App Key
+  command: 
+    cmd: php artisan key:generate --force
+    chdir: /var/www/snipeit
+  become: true
+  become_user: root 
+  register: app_key_1
+
+#- name: get App Key
+#  command:
+#    cmd: "grep APP_KEY .env"
+#    chdir: /var/www/snipeit
+#  register: app_key_2
+
+#- name: Parse App_Key Value
+#  command:
+#    cmd: echo "{{ app_key_2.stdout[15:] }}"
+#  register: app_key_3
+
+#- name: Updating .env (Setting App Key)
+#  lineinfile:
+#    path: /var/www/snipeit/.env
+#    regex: "APP_KEY="
+#    line: "APP_KEY={{ app_key_1.stdout }}"
+
+- name: Get System TimeZone Settings
+  command:
+    cmd: cat /etc/timezone
+  register: system_tz
+
+- name: Updating .env (Setting App Time Zone)
+  lineinfile:
+    path: /var/www/snipeit/.env
+    regex: "APP_TIMEZONE='UTC'"
+    line: "APP_TIMEZONE='{{ system_tz.stdout }}'"
+
+- name: Updating .env (Setting Database Host)
+  lineinfile:
+    path: /var/www/snipeit/.env
+    regex: "DB_HOST=127.0.0.1"
+    line: "DB_HOST={{ db_host }}"
+
+- name: Updating .env (Setting Database Name)
+  lineinfile:
+    path: /var/www/snipeit/.env
+    regex: "DB_DATABASE=null"
+    line: "DB_DATABASE={{ db_database }}"
+
+- name: Updating .env (Setting Database Username)
+  lineinfile:
+    path: /var/www/snipeit/.env
+    regex: "DB_USERNAME=null"
+    line: "DB_USERNAME={{ db_username }}"
+
+- name: Updating .env (Setting Database Password)
+  lineinfile:
+    path: /var/www/snipeit/.env
+    regex: "DB_PASSWORD=null"
+    line: "DB_PASSWORD={{ db_password }}"
+
+- name: Updating .env (Setting Database Table Prefix)
+  lineinfile:
+    path: /var/www/snipeit/.env
+    regex: "DB_PREFIX=null"
+    line: "DB_PREFIX={{ db_prefix }}"
+
+- name: Initialize install (Database)
+  command:
+    cmd: php artisan migrate -n --force
+    chdir: /var/www/snipeit
+  become: yes
+  become_user: root
+  register: init_debug
+
+- debug:
+    msg: "{{ init_debug }}"
+
+- name: Set SnipeIt Permissions
+  file:
+    path: /var/www/snipeit
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Create apache2 Virtual Host Config
+  template:
+    src: snipeit.conf.j2
+    dest: /etc/apache2/sites-available/snipeit.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Activate New apache2 Virtual Host Config
+  command:
+    cmd: /usr/sbin/a2ensite snipeit.conf
+
+- name: Restart apache2
+  systemd:
+    name: apache2
+    state: restarted
+
+

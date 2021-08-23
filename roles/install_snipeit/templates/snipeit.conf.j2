@@ -1,0 +1,22 @@
+Listen {{ snipeit_web_port }}
+<VirtualHost *:{{snipeit_web_port }}>
+ServerAdmin webmaster@example.com
+<Directory /var/www/snipeit/public>
+        Allow From All
+        AllowOverride None
+        Options None
+   </Directory>
+    DocumentRoot /var/www/snipeit/public
+    ServerName example.com
+        ErrorLog /var/log/apache2/snipeIT.error.log
+        CustomLog /var/log/apache2/snipeIT.access.log combined
+
+    RewriteEngine On
+    # From public/.htaccess
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+    RewriteRule ^ /index.php [L]
+</VirtualHost>

@@ -25,6 +25,14 @@ nextcloud_mysql_password: "ChangeMe" # Make this Unique
 nextcloud_admin_username: "admin" # admin user to login to nextcloud with
 nextcloud_admin_password: "ChangeMe" # Make this Unique
 
+# SnipeIT Asset Management
+db_host: "127.0.0.1"
+db_database: "snipeit"
+db_username: "snipeitDBAdmin"
+db_password: "SecureDBPassword"
+db_prefix: "sit_"
+snipeit_web_port: 8081
+
 # GAMES
 ########
 

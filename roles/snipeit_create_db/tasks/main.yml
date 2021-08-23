@@ -1,0 +1,24 @@
+---
+- name: Ensure mySQL is running
+  systemd:
+    name: mysqld
+    state: started
+
+- name: Create Database User
+  shell: mysql -u root -e "grant all privileges on {{ db_database }}.* to '{{ db_username }}'@'{{ item }}' identified by '{{ db_password }}'"
+  become: yes
+  become_user: root
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - 1
+    - localhost
+
+- name: Create Database
+  mysql_db:
+    login_unix_socket: /run/mysqld/mysqld.sock
+    name: "{{ db_database }}"
+    state: present
+    collation: utf8_general_ci
+
+
